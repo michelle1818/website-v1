@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "French Wine has to compete with many new world wines"
+title: "WWDC 2020: The developer rundown of Apple’s biggest event"
 author: Michelle
 categories: [Lifestyle]
 tags: [France]

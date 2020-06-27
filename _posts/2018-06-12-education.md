@@ -1,68 +1,141 @@
 ---
 layout: post
-title: "Education must also train one for quick, resolute and effective thinking."
+title: "Create Apps with No Configuration"
 author: Michelle
 categories: [Lifestyle]
 image: assets/images/3.jpg
-beforetoc: "Prism highlighter is a very powerful thing. In this article I'm going to show you what you can actually do with it, some tricks and tips while editing your post. Tocs is also enabled as you can see in summary."
+beforetoc: ""
 toc: true
 ---
 
-Memoirs theme has Prism highlighter integrated. I will show you in this post a few examples of how it looks if you are a developer planning to add pieces of code on your website.
+**[Create React App](https://github.com/facebookincubator/create-react-app)** is a new officially supported way to create single-page React applications. It offers a modern build setup with no configuration.
 
-#### HTML
+## Getting Started {#getting-started}
 
-```html
-<li class="ml-1 mr-1">
-  <a target="_blank" href="#">
-    <i class="fab fa-twitter"></i>
-  </a>
-</li>
+### Installation {#installation}
+
+First, install the global package:
+
+```sh
+npm install -g create-react-app
 ```
 
-#### CSS
+Node.js 4.x or higher is required.
 
-```css
-.highlight .c {
-  color: #999988;
-  font-style: italic;
-}
-.highlight .err {
-  color: #a61717;
-  background-color: #e3d2d2;
-}
+### Creating an App {#creating-an-app}
+
+Now you can use it to create a new app:
+
+```sh
+create-react-app hello-world
 ```
 
-#### JS
+This will take a while as npm installs the transitive dependencies, but once it’s done, you will see a list of commands you can run in the created folder:
+
+![created folder](../images/blog/create-apps-with-no-configuration/created-folder.png)
+
+### Starting the Server {#starting-the-server}
+
+Run `npm start` to launch the development server. The browser will open automatically with the created app’s URL.
+
+![compiled successfully](../images/blog/create-apps-with-no-configuration/compiled-successfully.png)
+
+Create React App uses both webpack and Babel under the hood.
+The console output is tuned to be minimal to help you focus on the problems:
+
+![failed to compile](../images/blog/create-apps-with-no-configuration/failed-to-compile.png)
+
+ESLint is also integrated so lint warnings are displayed right in the console:
+
+![compiled with warnings](../images/blog/create-apps-with-no-configuration/compiled-with-warnings.png)
+
+We only picked a small subset of lint rules that often lead to bugs.
+
+### Building for Production {#building-for-production}
+
+To build an optimized bundle, run `npm run build`:
+
+![npm run build](../images/blog/create-apps-with-no-configuration/npm-run-build.png)
+
+It is minified, correctly envified, and the assets include content hashes for caching.
+
+### One Dependency {#one-dependency}
+
+Your `package.json` contains only a single build dependency and a few scripts:
 
 ```js
-// alertbar later
-$(document).scroll(function () {
-  var y = $(this).scrollTop();
-  if (y > 280) {
-    $(".alertbar").fadeIn();
-  } else {
-    $(".alertbar").fadeOut();
+{
+  "name": "hello-world",
+  "dependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  },
+  "devDependencies": {
+    "react-scripts": "0.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
   }
-});
+}
 ```
 
-#### Python
+We take care of updating Babel, ESLint, and webpack to stable compatible versions so you can update a single dependency to get them all.
 
-```python
-print("Hello World")
+### Zero Configuration {#zero-configuration}
+
+It is worth repeating: there are no configuration files or complicated folder structures. The tool only generates the files you need to build your app.
+
+```
+hello-world/
+  README.md
+  index.html
+  favicon.ico
+  node_modules/
+  package.json
+  src/
+    App.css
+    App.js
+    index.css
+    index.js
+    logo.svg
 ```
 
-#### Ruby
+All the build settings are preconfigured and can’t be changed. Some features, such as testing, are currently missing. This is an intentional limitation, and we recognize it might not work for everybody. And this brings us to the last point.
 
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
-```
+### No Lock-In {#no-lock-in}
 
-#### C
+We first saw this feature in [Enclave](https://github.com/eanplatter/enclave), and we loved it. We talked to [Ean](https://twitter.com/EanPlatter), and he was excited to collaborate with us. He already sent a few pull requests!
 
-```c
-printf("Hello World");
-```
+“Ejecting” lets you leave the comfort of Create React App setup at any time. You run a single command, and all the build dependencies, configs, and scripts are moved right into your project. At this point you can customize everything you want, but effectively you are forking our configuration and going your own way. If you’re experienced with build tooling and prefer to fine-tune everything to your taste, this lets you use Create React App as a boilerplate generator.
+
+We expect that at early stages, many people will “eject” for one reason or another, but as we learn from them, we will make the default setup more and more compelling while still providing no configuration.
+
+## Try It Out! {#try-it-out}
+
+You can find [**Create React App**](https://github.com/facebookincubator/create-react-app) with additional instructions on GitHub.
+
+This is an experiment, and only time will tell if it becomes a popular way of creating and building React apps, or fades into obscurity.
+
+We welcome you to participate in this experiment. Help us build the React tooling that more people can use. We are always [open to feedback](https://github.com/facebookincubator/create-react-app/issues/11).
+
+## The Backstory {#the-backstory}
+
+React was one of the first libraries to embrace transpiling JavaScript. As a result, even though you can [learn React without any tooling](https://github.com/facebook/react/blob/3fd582643ef3d222a00a0c756292c15b88f9f83c/examples/basic-jsx/index.html), the React ecosystem has commonly become associated with an overwhelming explosion of tools.
+
+Eric Clemmons called this phenomenon the “[JavaScript Fatigue](https://medium.com/@ericclemmons/javascript-fatigue-48d4011b6fc4)”:
+
+> Ultimately, the problem is that by choosing React (and inherently JSX), you’ve unwittingly opted into a confusing nest of build tools, boilerplate, linters, & time-sinks to deal with before you ever get to create anything.
+
+It is tempting to write code in ES2015 and JSX. It is sensible to use a bundler to keep the codebase modular, and a linter to catch the common mistakes. It is nice to have a development server with fast rebuilds, and a command to produce optimized bundles for production.
+
+Combining these tools requires some experience with each of them. Even so, it is far too easy to get dragged into fighting small incompatibilities, unsatisfied peerDependencies, and illegible configuration files.
+
+Many of those tools are plugin platforms and don’t directly acknowledge each other’s existence. They leave it up to the users to wire them together. The tools mature and change independently, and tutorials quickly get out of date.
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Marc was almost ready to implement his &quot;hello world&quot; React app <a href="https://t.co/ptdg4yteF1">pic.twitter.com/ptdg4yteF1</a></p>&mdash; Thomas Fuchs (@thomasfuchs) <a href="https://twitter.com/thomasfuchs/status/708675139253174273">March 12, 2016</a></blockquote>
+
+This doesn’t mean those tools aren’t great. To many of us, they have become indispensable, and we very much appreciate the effort of their maintainers. They already have too much on their plates to worry about the state of the React ecosystem.
+
+Still, we knew it was frustrating to spend days setting up a project when all you wanted was to learn React. We wanted to fix this.

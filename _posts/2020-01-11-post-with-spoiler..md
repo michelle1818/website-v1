@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Spoliers Inside - a film review needs hidden spoilers like this post"
+title: "The legacy of legacy—the ultimate drag on condensing into a cloud"
 author: Michelle
 categories: [Lifestyle]
 tags: [Movies]
